@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{FA36C31C-61B4-4DE8-B8FA-EF8AD51AFC99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessController", "ChessController\ChessController.csproj", "{86381427-D672-4AAC-B662-A036B471B041}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FA36C31C-61B4-4DE8-B8FA-EF8AD51AFC99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA36C31C-61B4-4DE8-B8FA-EF8AD51AFC99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA36C31C-61B4-4DE8-B8FA-EF8AD51AFC99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA36C31C-61B4-4DE8-B8FA-EF8AD51AFC99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86381427-D672-4AAC-B662-A036B471B041}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86381427-D672-4AAC-B662-A036B471B041}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86381427-D672-4AAC-B662-A036B471B041}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86381427-D672-4AAC-B662-A036B471B041}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {079FF63D-DE2F-4B41-9584-D203A7AF168C}
+	EndGlobalSection
+EndGlobal
