@@ -11,12 +11,12 @@ namespace ChessController.Pieces
 
         }
 
-        public override List<(int, int)> GetAwailableMoves(ChessPiece[,] board, (int, int) piecePos)
+        public override List<(int, int)> GetAwailableMoves(ChessGame chessGame, (int, int) piecePos)
         {
             throw new NotImplementedException();
         }
 
-        public override bool IsMoveAvailable(ChessPiece[,] board, (int, int) piecePos, (int, int) movePos)
+        public override bool IsMoveAvailable(ChessGame chessGame, (int, int) piecePos, (int, int) movePos)
         {
             throw new NotImplementedException();
         }

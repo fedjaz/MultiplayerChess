@@ -11,12 +11,101 @@ namespace ChessController.Pieces
 
         }
 
-        public override List<(int, int)> GetAwailableMoves(ChessPiece[,] board, (int, int) piecePos)
+        public override List<(int, int)> GetAllMoves(ChessGame chessGame, (int, int) piecePos)
+        {
+            List<(int, int)> moves = new List<(int, int)>();
+
+            #region Rook-like moves
+            //add vertical upper moves
+            for(int i = piecePos.Item1; i < 8; i++)
+            {
+                int j = piecePos.Item2;
+                if(chessGame.Board[i, j] == null)
+                {
+                    moves.Add((i, j));
+                }
+                else if(chessGame.Board[i, j].Color != Color)
+                {
+                    moves.Add((i, j));
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            //add vertical lower moves
+            for(int i = piecePos.Item1; i >= 0; i--)
+            {
+                int j = piecePos.Item2;
+                if(chessGame.Board[i, j] == null)
+                {
+                    moves.Add((i, j));
+                }
+                else if(chessGame.Board[i, j].Color != Color)
+                {
+                    moves.Add((i, j));
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            //add horizontal right moves
+            for(int j = piecePos.Item2; j < 8; j++)
+            {
+                int i = piecePos.Item1;
+                if(chessGame.Board[i, j] == null)
+                {
+                    moves.Add((i, j));
+                }
+                else if(chessGame.Board[i, j].Color != Color)
+                {
+                    moves.Add((i, j));
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            //add horizontal left moves
+            for(int j = piecePos.Item2; j >= 0; j--)
+            {
+                int i = piecePos.Item1;
+                if(chessGame.Board[i, j] == null)
+                {
+                    moves.Add((i, j));
+                }
+                else if(chessGame.Board[i, j].Color != Color)
+                {
+                    moves.Add((i, j));
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            #endregion
+            #region Bishop-like moves
+            //add upper right moves
+            for(int i = piecePos.Item1, j = piecePos.Item2; i < 8 && j < 8; i++, j++)
+            {
+
+            }
+            #endregion
+            return moves;
+        }
+
+        public override List<(int, int)> GetAwailableMoves(ChessGame chessGame, (int, int) piecePos)
         {
             throw new NotImplementedException();
         }
 
-        public override bool IsMoveAvailable(ChessPiece[,] board, (int, int) piecePos, (int, int) movePos)
+        public override bool IsMoveAvailable(ChessGame chessGame, (int, int) piecePos, (int, int) movePos)
         {
             throw new NotImplementedException();
         }
