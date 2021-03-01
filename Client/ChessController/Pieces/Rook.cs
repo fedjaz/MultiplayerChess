@@ -6,6 +6,7 @@ namespace ChessController.Pieces
 {
     public class Rook : ChessPiece
     {
+        public bool WasMoved { get; set; } = false;
         public Rook(Colors color) : base(color)
         {
 

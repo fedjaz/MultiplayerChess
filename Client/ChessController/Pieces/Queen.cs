@@ -88,6 +88,7 @@ namespace ChessController.Pieces
                 }
             }
             #endregion
+
             return moves;
         }
 
