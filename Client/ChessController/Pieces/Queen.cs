@@ -16,38 +16,20 @@ namespace ChessController.Pieces
             List<(int, int)> moves = new List<(int, int)>();
 
             #region Rook-like moves
-            //add vertical upper moves
+            //add vertical lower moves
             for(int i = piecePos.Item1; i < 8; i++)
             {
                 int j = piecePos.Item2;
-                if(chessGame.Board[i, j] == null)
-                {
-                    moves.Add((i, j));
-                }
-                else if(chessGame.Board[i, j].Color != Color)
-                {
-                    moves.Add((i, j));
-                    break;
-                }
-                else
+                if(!CheckAndAddMove(moves, chessGame.Board, (i, j)))
                 {
                     break;
                 }
             }
-            //add vertical lower moves
+            //add vertical upper moves
             for(int i = piecePos.Item1; i >= 0; i--)
             {
                 int j = piecePos.Item2;
-                if(chessGame.Board[i, j] == null)
-                {
-                    moves.Add((i, j));
-                }
-                else if(chessGame.Board[i, j].Color != Color)
-                {
-                    moves.Add((i, j));
-                    break;
-                }
-                else
+                if(!CheckAndAddMove(moves, chessGame.Board, (i, j)))
                 {
                     break;
                 }
@@ -56,16 +38,7 @@ namespace ChessController.Pieces
             for(int j = piecePos.Item2; j < 8; j++)
             {
                 int i = piecePos.Item1;
-                if(chessGame.Board[i, j] == null)
-                {
-                    moves.Add((i, j));
-                }
-                else if(chessGame.Board[i, j].Color != Color)
-                {
-                    moves.Add((i, j));
-                    break;
-                }
-                else
+                if(!CheckAndAddMove(moves, chessGame.Board, (i, j)))
                 {
                     break;
                 }
@@ -74,16 +47,7 @@ namespace ChessController.Pieces
             for(int j = piecePos.Item2; j >= 0; j--)
             {
                 int i = piecePos.Item1;
-                if(chessGame.Board[i, j] == null)
-                {
-                    moves.Add((i, j));
-                }
-                else if(chessGame.Board[i, j].Color != Color)
-                {
-                    moves.Add((i, j));
-                    break;
-                }
-                else
+                if(!CheckAndAddMove(moves, chessGame.Board, (i, j)))
                 {
                     break;
                 }
@@ -91,10 +55,37 @@ namespace ChessController.Pieces
 
             #endregion
             #region Bishop-like moves
-            //add upper right moves
+            //add lower right moves
             for(int i = piecePos.Item1, j = piecePos.Item2; i < 8 && j < 8; i++, j++)
             {
-
+                if(!CheckAndAddMove(moves, chessGame.Board, (i, j)))
+                {
+                    break;
+                }
+            }
+            //add upper right moves
+            for(int i = piecePos.Item1, j = piecePos.Item2; i >= 0 && j < 8; i--, j++)
+            {
+                if(!CheckAndAddMove(moves, chessGame.Board, (i, j)))
+                {
+                    break;
+                }
+            }
+            //add upper left moves
+            for(int i = piecePos.Item1, j = piecePos.Item2; i >= 0 && j >= 0; i--, j--)
+            {
+                if(!CheckAndAddMove(moves, chessGame.Board, (i, j)))
+                {
+                    break;
+                }
+            }
+            //add lower left moves
+            for(int i = piecePos.Item1, j = piecePos.Item2; i < 8 && j >= 0; i++, j--)
+            {
+                if(!CheckAndAddMove(moves, chessGame.Board, (i, j)))
+                {
+                    break;
+                }
             }
             #endregion
             return moves;
