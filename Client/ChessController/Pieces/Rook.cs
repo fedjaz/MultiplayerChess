@@ -6,32 +6,35 @@ namespace ChessController.Pieces
 {
     public class Rook : ChessPiece
     {
-        public bool WasMoved { get; set; } = false;
         public Rook(Colors color) : base(color)
         {
 
         }
 
-        public override List<(int, int)> GetAwailableMoves(ChessGame chessGame, (int, int) piecePos)
+        public override List<Move> GetAwailableMoves(ChessGame chessGame, (int, int) piecePos)
         {
             throw new NotImplementedException();
         }
 
-        public override bool IsMoveAvailable(ChessGame chessGame, (int, int) piecePos, (int, int) movePos)
+        public override bool IsMoveAvailable(ChessGame chessGame, Move move)
         {
             throw new NotImplementedException();
         }
 
-        public override List<(int, int)> GetAllMoves(ChessGame chessGame, (int, int) piecePos)
+        public override List<Move> GetAllMoves(ChessGame chessGame, (int, int) piecePos)
         {
-            List<(int, int)> moves = new List<(int, int)>();
+            return GetRookMoves(chessGame, piecePos);
+        }
 
-            #region Rook-like moves
+        public static List<Move> GetRookMoves(ChessGame chessGame, (int, int) piecePos)
+        {
+            List<Move> moves = new List<Move>();
             //add vertical lower moves
             for(int i = piecePos.Item1; i < 8; i++)
             {
                 int j = piecePos.Item2;
-                if(!CheckAndAddMove(moves, chessGame.Board, (i, j)))
+                Move move = new Move(Move.MoveTypes.Default, piecePos, (i, j));
+                if(!CheckAndAddMove(moves, chessGame, move))
                 {
                     break;
                 }
@@ -40,7 +43,8 @@ namespace ChessController.Pieces
             for(int i = piecePos.Item1; i >= 0; i--)
             {
                 int j = piecePos.Item2;
-                if(!CheckAndAddMove(moves, chessGame.Board, (i, j)))
+                Move move = new Move(Move.MoveTypes.Default, piecePos, (i, j));
+                if(!CheckAndAddMove(moves, chessGame, move))
                 {
                     break;
                 }
@@ -49,7 +53,8 @@ namespace ChessController.Pieces
             for(int j = piecePos.Item2; j < 8; j++)
             {
                 int i = piecePos.Item1;
-                if(!CheckAndAddMove(moves, chessGame.Board, (i, j)))
+                Move move = new Move(Move.MoveTypes.Default, piecePos, (i, j));
+                if(!CheckAndAddMove(moves, chessGame, move))
                 {
                     break;
                 }
@@ -58,13 +63,12 @@ namespace ChessController.Pieces
             for(int j = piecePos.Item2; j >= 0; j--)
             {
                 int i = piecePos.Item1;
-                if(!CheckAndAddMove(moves, chessGame.Board, (i, j)))
+                Move move = new Move(Move.MoveTypes.Default, piecePos, (i, j));
+                if(!CheckAndAddMove(moves, chessGame, move))
                 {
                     break;
                 }
             }
-
-            #endregion
 
             return moves;
         }

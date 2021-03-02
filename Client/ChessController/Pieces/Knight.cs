@@ -11,47 +11,63 @@ namespace ChessController.Pieces
 
         }
 
-        public override List<(int, int)> GetAllMoves(ChessGame chessGame, (int, int) piecePos)
+        public override List<Move> GetAllMoves(ChessGame chessGame, (int, int) piecePos)
         {
-            List<(int, int)> moves = new List<(int, int)>();
+            List<Move> moves = new List<Move>();
 
-            int i = piecePos.Item1, j = piecePos.Item2;
-
-            CheckAndAddKnightMove(chessGame, piecePos, (i - 1, j - 2), moves);
-            CheckAndAddKnightMove(chessGame, piecePos, (i + 1, j - 2), moves);
-
-            CheckAndAddKnightMove(chessGame, piecePos, (i - 2, j - 1), moves);
-            CheckAndAddKnightMove(chessGame, piecePos, (i + 2, j - 1), moves);
-
-            CheckAndAddKnightMove(chessGame, piecePos, (i - 2, j + 1), moves);
-            CheckAndAddKnightMove(chessGame, piecePos, (i + 2, j + 1), moves);
-
-            CheckAndAddKnightMove(chessGame, piecePos, (i - 1, j + 2), moves);
-            CheckAndAddKnightMove(chessGame, piecePos, (i + 1, j + 2), moves);
+            
 
             return moves;
         }
 
-        public override List<(int, int)> GetAwailableMoves(ChessGame chessGame, (int, int) piecePos)
+        public static List<Move> GetKnightMoves(ChessGame chessGame, (int, int) piecePos)
+        {
+            List<Move> moves = new List<Move>();
+
+            int i = piecePos.Item1, j = piecePos.Item2;
+
+            CheckAndAddKnightMove(chessGame, new Move(Move.MoveTypes.Default, 
+                piecePos, (i - 1, j - 2)), moves);
+            CheckAndAddKnightMove(chessGame, new Move(Move.MoveTypes.Default,
+                piecePos, (i + 1, j - 2)), moves);
+
+            CheckAndAddKnightMove(chessGame, new Move(Move.MoveTypes.Default,
+                piecePos, (i - 2, j - 1)), moves);
+            CheckAndAddKnightMove(chessGame, new Move(Move.MoveTypes.Default,
+                piecePos, (i + 2, j - 1)), moves);
+
+            CheckAndAddKnightMove(chessGame, new Move(Move.MoveTypes.Default,
+                piecePos, (i - 2, j + 1)), moves);
+            CheckAndAddKnightMove(chessGame, new Move(Move.MoveTypes.Default,
+                piecePos, (i + 2, j + 1)), moves);
+
+            CheckAndAddKnightMove(chessGame, new Move(Move.MoveTypes.Default,
+                piecePos, (i - 1, j + 2)), moves);
+            CheckAndAddKnightMove(chessGame, new Move(Move.MoveTypes.Default,
+                piecePos, (i + 1, j + 2)), moves);
+
+            return moves;
+        }
+
+        public override List<Move> GetAwailableMoves(ChessGame chessGame, (int, int) piecePos)
         {
             throw new NotImplementedException();
         }
 
-        public override bool IsMoveAvailable(ChessGame chessGame, (int, int) piecePos, (int, int) movePos)
+        public override bool IsMoveAvailable(ChessGame chessGame, Move move)
         {
             throw new NotImplementedException();
         }
 
-        public void CheckAndAddKnightMove(ChessGame chessGame, (int, int) knightPos, 
-                                          (int, int) movePos, List<(int, int)> moves)
+        static void CheckAndAddKnightMove(ChessGame chessGame, Move move, List<Move> moves)
         {
-            int i = knightPos.Item1, j = knightPos.Item2;
-            int di = movePos.Item1, dj = movePos.Item2;
+            int i = move.FirstPos.Item1, j = move.FirstPos.Item2;
+            int di = move.SecondPos.Item1, dj = move.SecondPos.Item2;
             if(dj >= 0 && di >= 0 && dj < 8 && di < 8 &&
                 (chessGame.Board[di, dj] == null ||
-                 chessGame.Board[di, dj].Color != Color))
+                 chessGame.Board[di, dj].Color != chessGame.Board[i, j].Color))
             {
-                moves.Add((di, dj));
+                moves.Add(move);
             }
         }
     }

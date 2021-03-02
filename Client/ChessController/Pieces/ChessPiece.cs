@@ -13,27 +13,30 @@ namespace ChessController.Pieces
         }
 
         public Colors Color { get; set; }
+        public bool WasMoved { get; set; } = false;
 
         public ChessPiece(Colors color)
         {
             Color = color;
         }
 
-        public abstract bool IsMoveAvailable(ChessGame chessGame, (int, int) piecePos, (int, int) movePos);
-        public abstract List<(int, int)> GetAwailableMoves(ChessGame chessGame, (int, int) piecePos);
-        public abstract List<(int, int)> GetAllMoves(ChessGame chessGame, (int, int) piecePos);
+        public abstract bool IsMoveAvailable(ChessGame chessGame, Move move);
+        public abstract List<Move> GetAwailableMoves(ChessGame chessGame, (int, int) piecePos);
+        public abstract List<Move> GetAllMoves(ChessGame chessGame, (int, int) piecePos);
 
-        protected bool CheckAndAddMove(List<(int, int)> moves, ChessPiece[,] board, (int, int) pos)
+        protected static bool CheckAndAddMove(List<Move> moves, ChessGame chessGame, Move move)
         {
-            int i = pos.Item1, j = pos.Item2;
-            if(board[i, j] == null)
+            int i = move.FirstPos.Item1, j = move.FirstPos.Item2;
+            int di = move.SecondPos.Item1, dj = move.SecondPos.Item2;
+
+            if(chessGame.Board[di, dj] == null)
             {
-                moves.Add((i, j));
+                moves.Add(move);
                 return true;
             }
-            else if(board[i, j].Color != Color)
+            else if(chessGame.Board[i, j].Color != chessGame.Board[di, dj].Color)
             {
-                moves.Add((i, j));
+                moves.Add(move);
                 return false;
             }
             else
