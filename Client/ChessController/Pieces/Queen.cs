@@ -11,19 +11,19 @@ namespace ChessController.Pieces
 
         }
 
-        public override List<Move> GetAllMoves(ChessGame chessGame, (int, int) piecePos)
+        public override ChessPiece Copy()
+        {
+            return new Queen(Color);
+        }
+
+        public override List<Move> GetAllMoves(Board board, (int, int) piecePos)
         {
             List<Move> moves = new List<Move>();
 
-            moves.AddRange(Rook.GetRookMoves(chessGame, piecePos));
-            moves.AddRange(Bishop.GetBishopMoves(chessGame, piecePos));
+            moves.AddRange(Rook.GetRookMoves(board, piecePos));
+            moves.AddRange(Bishop.GetBishopMoves(board, piecePos));
 
             return moves;
-        }
-
-        public override List<Move> GetAwailableMoves(ChessGame chessGame, (int, int) piecePos)
-        {
-            throw new NotImplementedException();
         }
 
         public override bool IsMoveAvailable(ChessGame chessGame, Move move)

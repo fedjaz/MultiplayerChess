@@ -37,5 +37,13 @@ namespace ChessController
         {
             SecondarySecondPos = secondarySecondPos;
         }
+
+        public override string ToString()
+        {
+            int i = FirstPos.Item1, j = FirstPos.Item2;
+            int di = SecondPos.Item1, dj = SecondPos.Item2;
+
+            return $"{(char)('A' + j)}{8 - i}-{(char)('A' + dj)}{8 - di}";
+        }
     }
 }

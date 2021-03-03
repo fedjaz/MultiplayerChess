@@ -13,64 +13,58 @@ namespace ChessController.Pieces
 
         }
 
-        public override List<(int, int)> GetAwailableMoves(ChessGame chessGame, (int, int) piecePos)
+        public override List<Move> GetAllMoves(Board board, (int, int) piecePos)
         {
-            throw new NotImplementedException();
-        }
-
-        public override bool IsMoveAvailable(ChessGame chessGame, (int, int) piecePos, (int, int) movePos)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override List<(int, int)> GetAllMoves(ChessGame chessGame, (int, int) piecePos)
-        {
-            List<(int, int)> moves = new List<(int, int)>();
+            List<Move> moves = new List<Move>();
 
             int i = piecePos.Item1, j = piecePos.Item2;
             //check is white
-            if(chessGame.Board[i, j].Color == Colors.White)
+            if(board[i, j].Color == Colors.White)
             {
                 //add default up move
-                if(i > 0 && chessGame.Board[i - 1, j] == null)
+                if(i > 0 && board[i - 1, j] == null)
                 {
-                    moves.Add((i - 1, j));
+                    moves.Add(new Move(Move.MoveTypes.Default, piecePos, (i - 1, j)));
                 }
 
                 //add long start move
                 if(i == 6)
                 {
-                    moves.Add((i - 2, j));
+                    moves.Add(new Move(Move.MoveTypes.Default, piecePos, (i - 2, j)));
                 }
 
                 //add strike move right
-                if(i > 0 && j < 7 && 
-                   chessGame.Board[i - 1, j + 1].Color == Colors.Black)
+                if(i > 0 && j < 7 && board[i - 1, j + 1] != null &&
+                   board[i - 1, j + 1].Color == Colors.Black)
                 {
-                    moves.Add((i - 1, j + 1));
+                    moves.Add(new Move(Move.MoveTypes.Default, piecePos, (i - 1, j + 1)));
                 }
 
                 //add strike move left
-                if(i > 0 && j > 0 &&
-                   chessGame.Board[i - 1, j - 1].Color == Colors.Black)
+                if(i > 0 && j > 0 && board[i - 1, j - 1] != null &&
+                   board[i - 1, j - 1].Color == Colors.Black)
                 {
-                    moves.Add((i - 1, j - 1));
+                    moves.Add(new Move(Move.MoveTypes.Default, piecePos, (i - 1, j - 1)));
                 }
 
                 //add en passant
                 if(EnPassantActive)
                 {
                     //en passant right
-                    if(j < 7 && chessGame.Board[i, j + 1] is Pawn 
-                       && (chessGame.Board[i, j + 1] as Pawn).EnPassantPassive)
+                    if(j < 7 && board[i, j + 1] is Pawn 
+                       && (board[i, j + 1] as Pawn).EnPassantPassive)
                     {
-                        moves.Add((i - 1, j + 1));
+                        Move move = new Move(Move.MoveTypes.EnPassant, piecePos, (i - 1, j + 1),
+                                             (i, j + 1));
+                        moves.Add(move);
                     }
                     //en passant left
-                    if(j > 0 && chessGame.Board[i, j - 1] is Pawn
-                       && (chessGame.Board[i, j - 1] as Pawn).EnPassantPassive)
+                    if(j > 0 && board[i, j - 1] is Pawn
+                       && (board[i, j - 1] as Pawn).EnPassantPassive)
                     {
-                        moves.Add((i - 1, j - 1));
+                        Move move = new Move(Move.MoveTypes.EnPassant, piecePos, (i - 1, j + 1),
+                                             (i - 1, j - 1));
+                        moves.Add(move);
                     }
                 }
             }
@@ -78,50 +72,64 @@ namespace ChessController.Pieces
             else
             {
                 //add default down move
-                if(i < 7 && chessGame.Board[i + 1, j] == null)
+                if(i < 7 && board[i + 1, j] == null)
                 {
-                    moves.Add((i + 1, j));
+                    moves.Add(new Move(Move.MoveTypes.Default, piecePos, (i + 1, j)));
                 }
 
                 //add long start move
                 if(i == 1)
                 {
-                    moves.Add((i + 2, j));
+                    moves.Add(new Move(Move.MoveTypes.Default, piecePos, (i + 2, j)));
                 }
 
                 //add strike move right
-                if(i < 7 && j < 7 &&
-                   chessGame.Board[i + 1, j + 1].Color == Colors.White)
+                if(i < 7 && j < 7 && board[i - 1, j + 1] != null &&
+                   board[i + 1, j + 1].Color == Colors.White)
                 {
-                    moves.Add((i + 1, j + 1));
+                    moves.Add(new Move(Move.MoveTypes.Default, piecePos, (i + 1, j + 1)));
                 }
 
                 //add strike move left
-                if(i < 7 && j > 0 &&
-                   chessGame.Board[i + 1, j - 1].Color == Colors.White)
+                if(i < 7 && j > 0 && board[i - 1, j - 1] != null &&
+                   board[i + 1, j - 1].Color == Colors.White)
                 {
-                    moves.Add((i + 1, j - 1));
+                    moves.Add(new Move(Move.MoveTypes.Default, piecePos, (i + 1, j - 1)));
                 }
 
                 //add en passant
                 if(EnPassantActive)
                 {
                     //en passant right
-                    if(j < 7 && chessGame.Board[i, j + 1] is Pawn
-                       && (chessGame.Board[i, j + 1] as Pawn).EnPassantPassive)
+                    if(j < 7 && board[i, j + 1] is Pawn
+                       && (board[i, j + 1] as Pawn).EnPassantPassive)
                     {
-                        moves.Add((i + 1, j + 1));
+                        Move move = new Move(Move.MoveTypes.EnPassant, piecePos, (i + 1, j + 1),
+                                             (i, j + 1));
+                        moves.Add(move);
                     }
                     //en passant left
-                    if(j > 0 && chessGame.Board[i, j - 1] is Pawn
-                       && (chessGame.Board[i, j - 1] as Pawn).EnPassantPassive)
+                    if(j > 0 && board[i, j - 1] is Pawn
+                       && (board[i, j - 1] as Pawn).EnPassantPassive)
                     {
-                        moves.Add((i + 1, j - 1));
+                        Move move = new Move(Move.MoveTypes.EnPassant, piecePos, (i + 1, j - 1),
+                                             (i, j - 1));
+                        moves.Add(move);
                     }
                 }
             }
 
             return moves;
+        }
+
+        public override bool IsMoveAvailable(ChessGame chessGame, Move move)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override ChessPiece Copy()
+        {
+            return new Pawn(Color);
         }
     }
 }

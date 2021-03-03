@@ -21,20 +21,39 @@ namespace ChessController.Pieces
         }
 
         public abstract bool IsMoveAvailable(ChessGame chessGame, Move move);
-        public abstract List<Move> GetAwailableMoves(ChessGame chessGame, (int, int) piecePos);
-        public abstract List<Move> GetAllMoves(ChessGame chessGame, (int, int) piecePos);
+        public List<Move> GetAvailableMoves(Board board, (int, int) piecePos)
+        {
+            List<Move> moves = GetAllMoves(board, piecePos);
+            List<Move> availableMoves = new List<Move>();
 
-        protected static bool CheckAndAddMove(List<Move> moves, ChessGame chessGame, Move move)
+            foreach(Move move in moves) 
+            {
+                int i = move.FirstPos.Item1, j = move.FirstPos.Item2;
+                Board copiedBoard = board.CopyBoard();
+                Colors color = copiedBoard[i, j].Color;
+                copiedBoard.ApplyMove(move);             
+
+                (int, int) kingPos = board.FindKing(color);
+                if(!board.IsCellInDanger(kingPos, color == Colors.White ? Colors.Black : Colors.White))
+                {
+                    availableMoves.Add(move);
+                }
+            }
+            return availableMoves;
+        }
+        public abstract List<Move> GetAllMoves(Board board, (int, int) piecePos);
+
+        protected static bool CheckAndAddMove(List<Move> moves, Board board, Move move)
         {
             int i = move.FirstPos.Item1, j = move.FirstPos.Item2;
             int di = move.SecondPos.Item1, dj = move.SecondPos.Item2;
 
-            if(chessGame.Board[di, dj] == null)
+            if(board[di, dj] == null)
             {
                 moves.Add(move);
                 return true;
             }
-            else if(chessGame.Board[i, j].Color != chessGame.Board[di, dj].Color)
+            else if(board[i, j].Color != board[di, dj].Color)
             {
                 moves.Add(move);
                 return false;
@@ -44,5 +63,7 @@ namespace ChessController.Pieces
                 return false;
             }
         }
+
+        public abstract ChessPiece Copy();
     }
 }

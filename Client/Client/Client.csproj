@@ -46,6 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChessClient.cs" />
+    <Compile Include="ChessPiecePicturebox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -120,10 +124,22 @@
     <None Include="Resources\RookW.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Board.png" />
+    <None Include="Resources\Wood.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Wood.jpg" />
+    <ProjectReference Include="..\ChessController\ChessController.csproj">
+      <Project>{86381427-d672-4aac-b662-a036b471b041}</Project>
+      <Name>ChessController</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\selectedPng.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Board.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Board.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

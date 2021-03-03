@@ -11,22 +11,17 @@ namespace ChessController.Pieces
 
         }
 
-        public override List<Move> GetAwailableMoves(ChessGame chessGame, (int, int) piecePos)
-        {
-            throw new NotImplementedException();
-        }
-
         public override bool IsMoveAvailable(ChessGame chessGame, Move move)
         {
             throw new NotImplementedException();
         }
 
-        public override List<Move> GetAllMoves(ChessGame chessGame, (int, int) piecePos)
+        public override List<Move> GetAllMoves(Board board, (int, int) piecePos)
         {
-            return GetRookMoves(chessGame, piecePos);
+            return GetRookMoves(board, piecePos);
         }
 
-        public static List<Move> GetRookMoves(ChessGame chessGame, (int, int) piecePos)
+        public static List<Move> GetRookMoves(Board board, (int, int) piecePos)
         {
             List<Move> moves = new List<Move>();
             //add vertical lower moves
@@ -34,7 +29,7 @@ namespace ChessController.Pieces
             {
                 int j = piecePos.Item2;
                 Move move = new Move(Move.MoveTypes.Default, piecePos, (i, j));
-                if(!CheckAndAddMove(moves, chessGame, move))
+                if(!CheckAndAddMove(moves, board, move))
                 {
                     break;
                 }
@@ -44,7 +39,7 @@ namespace ChessController.Pieces
             {
                 int j = piecePos.Item2;
                 Move move = new Move(Move.MoveTypes.Default, piecePos, (i, j));
-                if(!CheckAndAddMove(moves, chessGame, move))
+                if(!CheckAndAddMove(moves, board, move))
                 {
                     break;
                 }
@@ -54,7 +49,7 @@ namespace ChessController.Pieces
             {
                 int i = piecePos.Item1;
                 Move move = new Move(Move.MoveTypes.Default, piecePos, (i, j));
-                if(!CheckAndAddMove(moves, chessGame, move))
+                if(!CheckAndAddMove(moves, board, move))
                 {
                     break;
                 }
@@ -64,13 +59,18 @@ namespace ChessController.Pieces
             {
                 int i = piecePos.Item1;
                 Move move = new Move(Move.MoveTypes.Default, piecePos, (i, j));
-                if(!CheckAndAddMove(moves, chessGame, move))
+                if(!CheckAndAddMove(moves, board, move))
                 {
                     break;
                 }
             }
 
             return moves;
+        }
+
+        public override ChessPiece Copy()
+        {
+            return new Rook(Color);
         }
     }
 }
