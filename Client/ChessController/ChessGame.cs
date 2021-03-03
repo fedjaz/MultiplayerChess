@@ -31,5 +31,19 @@ namespace ChessController
             }
             return piece.GetAvailableMoves(Board, piecePos);
         }
+
+        public void Move(Move move)
+        {
+            int i = move.FirstPos.Item1, j = move.FirstPos.Item2;
+            Board[i, j].WasMoved = true;
+            Pieces.ChessPiece.Colors color = Board[i, j].Color;
+
+            Board.ApplyMove(move);
+
+            Board.ResetEnPassant(color);
+
+            WhoseMoving = WhoseMoving == Pieces.ChessPiece.Colors.White ?
+                Pieces.ChessPiece.Colors.Black : Pieces.ChessPiece.Colors.White;
+        }
     }
 }

@@ -17,6 +17,8 @@ namespace Client
         public ChessController.Pieces.ChessPiece ChessPiece { get; set; }
         public ChessGame ChessGame { get; set; }
         public (int, int) PiecePos { get; set; }
+
+
         public ChessPiecePicturebox(ChessController.Pieces.ChessPiece piece, 
             (int, int) pos, PictureBox parent)
         {
@@ -28,7 +30,8 @@ namespace Client
 
             int size = parent.Width / 8;
             Size = new Size(size, size);
-            Image = new Bitmap(MapPicture(), new Size(size, size));
+            //Image = new Bitmap(MapPicture(), new Size(size, size));
+            Image = MapPicture();
 
             int locationX = pos.Item2 * size, locationY = pos.Item1 * size;
 
@@ -37,8 +40,18 @@ namespace Client
             MouseDown += OnClick;
         }
 
+        public void MovePiece((int, int) newPos)
+        {
+            Location = new Point(newPos.Item2 * Size.Width, newPos.Item1 * Size.Height);
+            PiecePos = newPos;
+        }
+
         Bitmap MapPicture()
         {
+            if(ChessPiece == null)
+            {
+                return null;
+            }
             if(ChessPiece.Color == ChessController.Pieces.ChessPiece.Colors.White)
             {
                 if(ChessPiece is ChessController.Pieces.King)
@@ -103,6 +116,11 @@ namespace Client
         public void Activate()
         {
             BackgroundImage = Properties.Resources.Selected;
+        }
+
+        public void ActivateMove()
+        {
+            BackgroundImage = Properties.Resources.Possible;
         }
 
         public void Deactivate()

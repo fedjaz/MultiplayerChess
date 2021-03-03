@@ -93,6 +93,16 @@ namespace Client.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Danger {
+            get {
+                object obj = ResourceManager.GetObject("Danger", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap KingB {
             get {
                 object obj = ResourceManager.GetObject("KingB", resourceCulture);
@@ -146,6 +156,16 @@ namespace Client.Properties {
         internal static System.Drawing.Bitmap PawnW {
             get {
                 object obj = ResourceManager.GetObject("PawnW", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Possible {
+            get {
+                object obj = ResourceManager.GetObject("Possible", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

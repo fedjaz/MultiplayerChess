@@ -50,7 +50,7 @@ namespace ChessController.Pieces
             {
                 for(int dj = j - 1; dj < j + 2; dj++)
                 {
-                    if(di != i && dj != j)
+                    if(!(di == i && dj == j))
                     {
                         CheckAndAddKingMove(board, new Move(Move.MoveTypes.Default, (i, j), (di, dj)), moves);
                     }

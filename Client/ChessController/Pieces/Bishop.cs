@@ -22,7 +22,7 @@ namespace ChessController.Pieces
             List<Move> moves = new List<Move>();
 
             //add lower right moves
-            for(int i = piecePos.Item1, j = piecePos.Item2; i < 8 && j < 8; i++, j++)
+            for(int i = piecePos.Item1 + 1, j = piecePos.Item2 + 1; i < 8 && j < 8; i++, j++)
             {
                 Move move = new Move(Move.MoveTypes.Default, piecePos, (i, j));
                 if(!CheckAndAddMove(moves, board, move))
@@ -31,7 +31,7 @@ namespace ChessController.Pieces
                 }
             }
             //add upper right moves
-            for(int i = piecePos.Item1, j = piecePos.Item2; i >= 0 && j < 8; i--, j++)
+            for(int i = piecePos.Item1 - 1, j = piecePos.Item2 + 1; i >= 0 && j < 8; i--, j++)
             {
                 Move move = new Move(Move.MoveTypes.Default, piecePos, (i, j));
                 if(!CheckAndAddMove(moves, board, move))
@@ -40,7 +40,7 @@ namespace ChessController.Pieces
                 }
             }
             //add upper left moves
-            for(int i = piecePos.Item1, j = piecePos.Item2; i >= 0 && j >= 0; i--, j--)
+            for(int i = piecePos.Item1 - 1, j = piecePos.Item2 - 1; i >= 0 && j >= 0; i--, j--)
             {
                 Move move = new Move(Move.MoveTypes.Default, piecePos, (i, j));
                 if(!CheckAndAddMove(moves, board, move))
@@ -49,7 +49,7 @@ namespace ChessController.Pieces
                 }
             }
             //add lower left moves
-            for(int i = piecePos.Item1, j = piecePos.Item2; i < 8 && j >= 0; i++, j--)
+            for(int i = piecePos.Item1 + 1, j = piecePos.Item2 - 1; i < 8 && j >= 0; i++, j--)
             {
                 Move move = new Move(Move.MoveTypes.Default, piecePos, (i, j));
                 if(!CheckAndAddMove(moves, board, move))

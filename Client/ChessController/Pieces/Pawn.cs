@@ -85,14 +85,14 @@ namespace ChessController.Pieces
 
                 //add strike move right
                 if(i < 7 && j < 7 && board[i - 1, j + 1] != null &&
-                   board[i + 1, j + 1].Color == Colors.White)
+                   board[i - 1, j + 1].Color == Colors.White)
                 {
                     moves.Add(new Move(Move.MoveTypes.Default, piecePos, (i + 1, j + 1)));
                 }
 
                 //add strike move left
                 if(i < 7 && j > 0 && board[i - 1, j - 1] != null &&
-                   board[i + 1, j - 1].Color == Colors.White)
+                   board[i - 1, j - 1].Color == Colors.White)
                 {
                     moves.Add(new Move(Move.MoveTypes.Default, piecePos, (i + 1, j - 1)));
                 }

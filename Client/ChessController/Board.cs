@@ -20,7 +20,7 @@ namespace ChessController
             for(int i = 0; i < 8; i++)
             {
                 board[1, i] = new Pieces.Pawn(Pieces.ChessPiece.Colors.Black);
-                board[6, i] = new Pieces.Pawn(Pieces.ChessPiece.Colors.White);
+                //board[6, i] = new Pieces.Pawn(Pieces.ChessPiece.Colors.White);
             }
             #endregion
             #region Rooks
@@ -228,6 +228,28 @@ namespace ChessController
                 dj = move.SecondaryFirstPos.Item2;
 
                 board[di, dj] = null;
+            }
+        }
+
+        public void ResetEnPassant(Pieces.ChessPiece.Colors color)
+        {
+            for(int i = 0; i < 8; i++)
+            {
+                for(int j = 0; j < 8; j++)
+                {
+                    if(board[i, j] is Pieces.Pawn)
+                    {
+                        Pieces.Pawn pawn = board[i, j] as Pieces.Pawn;
+                        if(color == pawn.Color)
+                        {
+                            pawn.EnPassantActive = false;
+                        }
+                        else
+                        {
+                            pawn.EnPassantPassive = false;
+                        }
+                    }
+                }
             }
         }
     }
