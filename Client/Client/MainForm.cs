@@ -20,6 +20,16 @@ namespace Client
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            Rectangle screen = Screen.PrimaryScreen.Bounds;
+
+            int boardSize = (screen.Height / 2) / 8 * 8;
+            pictureBox1.Width = boardSize;
+            pictureBox1.Height = boardSize;
+            Height = boardSize + 41;
+            Width = (int)(2 * boardSize);
+            pictureBox2.Location = new Point(boardSize, 0);
+            
+
             chessClient = new ChessClient(pictureBox1);
 
             Bitmap b = new Bitmap(1000, 1000);
