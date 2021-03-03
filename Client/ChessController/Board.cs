@@ -20,7 +20,7 @@ namespace ChessController
             for(int i = 0; i < 8; i++)
             {
                 board[1, i] = new Pieces.Pawn(Pieces.ChessPiece.Colors.Black);
-                //board[6, i] = new Pieces.Pawn(Pieces.ChessPiece.Colors.White);
+                board[6, i] = new Pieces.Pawn(Pieces.ChessPiece.Colors.White);
             }
             #endregion
             #region Rooks
