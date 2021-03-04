@@ -33,8 +33,8 @@ namespace ChessController.Pieces
                 Colors color = copiedBoard[i, j].Color;
                 copiedBoard.ApplyMove(move);             
 
-                (int, int) kingPos = board.FindKing(color);
-                if(!board.IsCellInDanger(kingPos, color == Colors.White ? Colors.Black : Colors.White))
+                (int, int) kingPos = copiedBoard.FindKing(color);
+                if(!copiedBoard.IsCellInDanger(kingPos, color == Colors.White ? Colors.Black : Colors.White))
                 {
                     availableMoves.Add(move);
                 }

@@ -11,7 +11,7 @@ namespace Client
 {
     class ChessPiecePicturebox : PictureBox
     {
-        public delegate void ClickArgs(ChessPiecePicturebox sender);
+        public delegate void ClickArgs((int, int) piecePos);
         public event ClickArgs Clicked;
 
         public ChessController.Pieces.ChessPiece ChessPiece { get; set; }
@@ -110,7 +110,7 @@ namespace Client
 
         void OnClick(object sender, MouseEventArgs e)
         {
-            Clicked?.Invoke(this);
+            Clicked?.Invoke(PiecePos);
         }
 
         public void Activate()
