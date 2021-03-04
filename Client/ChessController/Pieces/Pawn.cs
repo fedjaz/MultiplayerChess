@@ -129,7 +129,13 @@ namespace ChessController.Pieces
 
         public override ChessPiece Copy()
         {
-            return new Pawn(Color);
+            Pawn pawn = new Pawn(Color)
+            {
+                EnPassantActive = EnPassantActive,
+                EnPassantPassive = EnPassantPassive,
+                WasMoved = WasMoved
+            };
+            return pawn;
         }
     }
 }

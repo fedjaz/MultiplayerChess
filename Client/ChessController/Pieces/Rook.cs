@@ -70,7 +70,10 @@ namespace ChessController.Pieces
 
         public override ChessPiece Copy()
         {
-            return new Rook(Color);
+            return new Rook(Color)
+            {
+                WasMoved = WasMoved
+            };
         }
     }
 }

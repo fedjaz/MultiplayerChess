@@ -90,6 +90,7 @@ namespace Client
                         PiecePictureboxes[di, dj] = castlingPiece;
                     }
                     PiecePictureboxes[move.SecondPos.Item1, move.SecondPos.Item2] = mainPiece;
+                    StoredMoves = new List<Move>();
                 }
                 else if(ChessGame.Board[i, j] != null)
                 {
@@ -98,11 +99,9 @@ namespace Client
                     {
                         PiecePictureboxes[i, j].Activate();
                         DrawMoves(StoredMoves);
-                    }       
+                    }
                 }
             }
-
-
         }
 
         void DrawMoves(List<Move> moves)

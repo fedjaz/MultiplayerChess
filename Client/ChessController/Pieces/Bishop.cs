@@ -69,7 +69,10 @@ namespace ChessController.Pieces
 
         public override ChessPiece Copy()
         {
-            return new Bishop(Color);
+            return new Bishop(Color)
+            {
+                WasMoved = WasMoved
+            };
         }
     }
 }

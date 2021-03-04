@@ -13,7 +13,10 @@ namespace ChessController.Pieces
 
         public override ChessPiece Copy()
         {
-            return new Queen(Color);
+            return new Queen(Color)
+            {
+                WasMoved = WasMoved
+            };
         }
 
         public override List<Move> GetAllMoves(Board board, (int, int) piecePos)

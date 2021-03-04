@@ -202,6 +202,11 @@ namespace ChessController
 
             if(move.MoveType == Move.MoveTypes.Default)
             {
+                //check EnPassant
+                if(board[i, j] is Pieces.Pawn)
+                {
+                    CheckAndAddEnPassant(move);
+                }
                 board[di, dj] = first;
                 board[i, j] = null;
             }
@@ -229,6 +234,32 @@ namespace ChessController
 
                 board[di, dj] = null;
             }
+        }
+
+        void CheckAndAddEnPassant(Move move)
+        {
+            int i = move.FirstPos.Item1, j = move.FirstPos.Item2;
+            int di = move.SecondPos.Item1, dj = move.SecondPos.Item2;
+            if((i == 6 && di == 4) || (i == 1 && di == 3))
+            {
+                //check right
+                if(j < 7 && board[di, j + 1] != null &&
+                   board[di, j + 1] is Pieces.Pawn &&
+                   board[di, j + 1].Color != board[i, j].Color)
+                {
+                    (board[i, j] as Pieces.Pawn).EnPassantPassive = true;
+                    (board[di, j + 1] as Pieces.Pawn).EnPassantActive = true;
+                }
+
+                //check left
+                if(j > 0 && board[di, j - 1] != null &&
+                   board[di, j - 1] is Pieces.Pawn &&
+                   board[di, j - 1].Color != board[i, j].Color)
+                {
+                    (board[i, j] as Pieces.Pawn).EnPassantPassive = true;
+                    (board[di, j - 1] as Pieces.Pawn).EnPassantActive = true;
+                }
+            }      
         }
 
         public void ResetEnPassant(Pieces.ChessPiece.Colors color)

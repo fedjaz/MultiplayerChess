@@ -64,7 +64,10 @@ namespace ChessController.Pieces
 
         public override ChessPiece Copy()
         {
-            return new Knight(Color);
+            return new Knight(Color)
+            {
+                WasMoved = WasMoved
+            };
         }
     }
 }
