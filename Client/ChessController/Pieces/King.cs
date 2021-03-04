@@ -20,22 +20,59 @@ namespace ChessController.Pieces
 
             moves.AddRange(GetKingMoves(board, piecePos));
 
-            //CACTLING IS NOT ADDED!!!!
-            ////add castling
-            //if(!WasMoved)
-            //{
-            //    //white castling
-            //    if(Color == Colors.White)
-            //    {
-            //        //castle right
-            //        if(chessGame.Board[7, 7] is Rook && chessGame.Board[7, 7].Color == Color &&
-            //           !chessGame.Board[7, 7].WasMoved && 
-            //           chessGame.Board[7, 5] == null && chessGame.Board[7, 6] == null)
-            //        {
+            //add castling
+            if(!WasMoved)
+            {
+                //castle right
+                if(j == 4 && (i == 0 || i == 7) &&
+                    board[i, 7] is Rook && board[i, 7].Color == Color &&
+                    !WasMoved && !board[i, 7].WasMoved && 
+                    board[i, 5] == null && board[i, 6] == null)
+                {
+                    Colors threatColor = Color == Colors.Black ?
+                                            Colors.White : Colors.Black;
 
-            //        }
-            //    }
-            //}
+                    Board copiedBoard = board.CopyBoard();
+                    bool b1 = !copiedBoard.IsCellInDanger((i, 4), threatColor);
+                    copiedBoard.ApplyMove(new Move(Move.MoveTypes.Default,
+                        (i, 4), (i, 5)));
+                    bool b2 = !copiedBoard.IsCellInDanger((i, 5), threatColor);
+                    copiedBoard.ApplyMove(new Move(Move.MoveTypes.Default,
+                        (i, 5), (i, 6)));
+                    bool b3 = !copiedBoard.IsCellInDanger((i, 6), threatColor);
+                    if(b1 && b2 && b3)
+                    {
+                        moves.Add(new Move(Move.MoveTypes.Castling,
+                                            (i, j), (i, 6),
+                                            (i, 7), (i, 5)));
+                    }
+                }
+                //castle left
+                if(j == 4 && (i == 0 || i == 7) &&
+                    board[i, 0] is Rook && board[i, 0].Color == Color &&
+                    !WasMoved && !board[i, 0].WasMoved &&
+                    board[i, 1] == null && board[i, 2] == null && 
+                    board[i, 3] == null)
+                {
+                    Colors threatColor = Color == Colors.Black ?
+                                            Colors.White : Colors.Black;
+
+                    Board copiedBoard = board.CopyBoard();
+                    bool b1 = !copiedBoard.IsCellInDanger((i, 4), threatColor);
+                    copiedBoard.ApplyMove(new Move(Move.MoveTypes.Default,
+                        (i, 4), (i, 3)));
+                    bool b2 = !copiedBoard.IsCellInDanger((i, 3), threatColor);
+                    copiedBoard.ApplyMove(new Move(Move.MoveTypes.Default,
+                        (i, 3), (i, 2)));
+                    bool b3 = !copiedBoard.IsCellInDanger((i, 2), threatColor);
+                    if(b1 && b2 && b3)
+                    {
+                        moves.Add(new Move(Move.MoveTypes.Castling,
+                                            (i, j), (i, 2),
+                                            (i, 0), (i, 3)));
+                    }
+                }
+            }
 
             return moves;
         }
