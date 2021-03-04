@@ -28,7 +28,7 @@ namespace ChessController.Pieces
                 }
 
                 //add long start move
-                if(i == 6)
+                if(i == 6 && board[i - 1, j] == null && board[i - 2, j] == null)
                 {
                     moves.Add(new Move(Move.MoveTypes.Default, piecePos, (i - 2, j)));
                 }
@@ -62,8 +62,8 @@ namespace ChessController.Pieces
                     if(j > 0 && board[i, j - 1] is Pawn
                        && (board[i, j - 1] as Pawn).EnPassantPassive)
                     {
-                        Move move = new Move(Move.MoveTypes.EnPassant, piecePos, (i - 1, j + 1),
-                                             (i - 1, j - 1));
+                        Move move = new Move(Move.MoveTypes.EnPassant, piecePos, (i - 1, j - 1),
+                                             (i, j - 1));
                         moves.Add(move);
                     }
                 }
@@ -78,21 +78,21 @@ namespace ChessController.Pieces
                 }
 
                 //add long start move
-                if(i == 1)
+                if(i == 1 && board[i + 1, j] == null && board[i + 2, j] == null)
                 {
                     moves.Add(new Move(Move.MoveTypes.Default, piecePos, (i + 2, j)));
                 }
 
                 //add strike move right
-                if(i < 7 && j < 7 && board[i - 1, j + 1] != null &&
-                   board[i - 1, j + 1].Color == Colors.White)
+                if(i < 7 && j < 7 && board[i + 1, j + 1] != null &&
+                   board[i + 1, j + 1].Color == Colors.White)
                 {
                     moves.Add(new Move(Move.MoveTypes.Default, piecePos, (i + 1, j + 1)));
                 }
 
                 //add strike move left
-                if(i < 7 && j > 0 && board[i - 1, j - 1] != null &&
-                   board[i - 1, j - 1].Color == Colors.White)
+                if(i < 7 && j > 0 && board[i + 1, j - 1] != null &&
+                   board[i + 1, j - 1].Color == Colors.White)
                 {
                     moves.Add(new Move(Move.MoveTypes.Default, piecePos, (i + 1, j - 1)));
                 }
