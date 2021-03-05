@@ -10,7 +10,8 @@ namespace ChessController
         {
             Default,
             EnPassant,
-            Castling
+            Castling,
+            Promotion
         }
 
         public MoveTypes MoveType { get; set; }
@@ -18,12 +19,19 @@ namespace ChessController
         public (int, int) SecondPos { get; set; }
         public (int, int) SecondaryFirstPos { get; set; }
         public (int, int) SecondarySecondPos { get; set; }
+        public Pieces.ChessPiece PromotionPiece { get; set; }
 
         public Move(MoveTypes moveType, (int, int) firstPos, (int, int) secondPos)
         {
             MoveType = moveType;
             FirstPos = firstPos;
             SecondPos = secondPos;
+        }
+
+        public Move(MoveTypes moveType, (int, int) firstPos, (int, int) secondPos, Pieces.ChessPiece promotionPiece)
+            : this(moveType, firstPos, secondPos)
+        {
+            PromotionPiece = promotionPiece;
         }
 
         public Move(MoveTypes moveType, (int, int) firstPos, (int, int) secondPos, (int, int) secondaryFirstPos)

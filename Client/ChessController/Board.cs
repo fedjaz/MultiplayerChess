@@ -250,6 +250,11 @@ namespace ChessController
 
                 board[di, dj] = null;
             }
+            else if(move.MoveType == Move.MoveTypes.Promotion)
+            {
+                board[di, dj] = move.PromotionPiece;
+                board[i, j] = null;
+            }
         }
 
         void CheckAndAddEnPassant(Move move)

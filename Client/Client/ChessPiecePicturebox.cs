@@ -47,7 +47,7 @@ namespace Client
             PiecePos = newPos;
         }
 
-        Bitmap MapPicture()
+        public Bitmap MapPicture()
         {
             if(ChessPiece == null)
             {

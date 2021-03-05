@@ -101,6 +101,11 @@ namespace Client
                         PiecePictureboxes[i, j] = null;
                         PiecePictureboxes[di, dj] = castlingPiece;
                     }
+                    else if(move.MoveType == Move.MoveTypes.Promotion)
+                    {
+                        mainPiece.ChessPiece = move.PromotionPiece;
+                        mainPiece.Image = mainPiece.MapPicture();
+                    }
                     PiecePictureboxes[move.SecondPos.Item1, move.SecondPos.Item2] = mainPiece;
                     StoredMoves = new List<Move>();
                 }
