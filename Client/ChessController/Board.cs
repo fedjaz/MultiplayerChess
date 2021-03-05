@@ -115,22 +115,25 @@ namespace ChessController
             //white 
             else
             {
-                //check pawn at right
-                if(j < 7)
+                if(i < 7)
                 {
-                    if(board[i + 1, j + 1] is Pieces.Pawn &&
-                       board[i + 1, j + 1].Color == threatColor)
+                    //check pawn at right
+                    if(j < 7)
                     {
-                        return true;
+                        if(board[i + 1, j + 1] is Pieces.Pawn &&
+                           board[i + 1, j + 1].Color == threatColor)
+                        {
+                            return true;
+                        }
                     }
-                }
-                //check pawn at left
-                if(j > 0)
-                {
-                    if(board[i + 1, j - 1] is Pieces.Pawn &&
-                       board[i + 1, j - 1].Color == threatColor)
+                    //check pawn at left
+                    if(j > 0)
                     {
-                        return true;
+                        if(board[i + 1, j - 1] is Pieces.Pawn &&
+                           board[i + 1, j - 1].Color == threatColor)
+                        {
+                            return true;
+                        }
                     }
                 }
             }
