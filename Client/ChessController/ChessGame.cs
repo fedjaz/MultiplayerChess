@@ -6,6 +6,10 @@ namespace ChessController
 {
     public class ChessGame
     {
+        public delegate void ChessEventArgs(ChessGame sender, (int, int) piecePos);
+        public event ChessEventArgs Check;
+        public event ChessEventArgs Checkmate;
+        public event ChessEventArgs Stalemate;
         public Board Board { get; set; }
         public Pieces.ChessPiece.Colors WhoseMoving { get; set; }
 
@@ -44,6 +48,20 @@ namespace ChessController
 
             WhoseMoving = WhoseMoving == Pieces.ChessPiece.Colors.White ?
                 Pieces.ChessPiece.Colors.Black : Pieces.ChessPiece.Colors.White;
+
+            (int, int) kingPos = Board.FindKing(WhoseMoving);
+            if(Board.IsCellInDanger(kingPos, color))
+            {
+                Check?.Invoke(this, kingPos);
+                if(!Board.IsAnyMoveAvailable(WhoseMoving))
+                {
+                    Checkmate?.Invoke(this, kingPos);
+                }
+            }
+            else if(!Board.IsAnyMoveAvailable(WhoseMoving))
+            {
+                Stalemate?.Invoke(this, kingPos);
+            }
         }
     }
 }

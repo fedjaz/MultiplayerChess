@@ -11,11 +11,18 @@ namespace Client
 {
     class ChessClient
     {
-        public delegate void Deativating();
+        public enum DeactivatingModes
+        {
+            Click, 
+            NextMove
+        }
+        public delegate void Deativating(DeactivatingModes mode);
         public event Deativating Deactivate; 
         ChessGame ChessGame { get; set; }
         ChessPiecePicturebox[,] PiecePictureboxes;
         List<Move> StoredMoves;
+        bool isCheckmate = false;
+        bool isStalemate = false;
 
         PictureBox Parent;
         ChessPiecePicturebox Activated { get; set; }
@@ -23,6 +30,9 @@ namespace Client
         public ChessClient(PictureBox parent)
         {
             ChessGame = new ChessGame();
+            ChessGame.Checkmate += (x, y) => isCheckmate = true;
+            ChessGame.Stalemate += (x, y) => isStalemate = true;
+            ChessGame.Check += (x, y) => PiecePictureboxes[y.Item1, y.Item2].ActivateDanger();
             PiecePictureboxes = new ChessPiecePicturebox[8, 8];
             StoredMoves = new List<Move>();
             Parent = parent;
@@ -47,7 +57,8 @@ namespace Client
 
         void PieceClicked((int, int) piecePos)
         {
-            if(Activated != null && piecePos == Activated.PiecePos)
+            if((Activated != null && piecePos == Activated.PiecePos) ||
+                isCheckmate)
             {
                 return;
             }
@@ -55,10 +66,11 @@ namespace Client
             {
                 int i = piecePos.Item1, j = piecePos.Item2;
                 Parent.Image = Properties.Resources.Board;
-                Deactivate?.Invoke();
+                Deactivate?.Invoke(DeactivatingModes.Click);
                 Move move;
                 if(IsMovePossible(piecePos, out move))
                 {
+                    Deactivate?.Invoke(DeactivatingModes.NextMove);
                     ChessGame.Move(move);
                     ChessPiecePicturebox mainPiece = 
                         PiecePictureboxes[move.FirstPos.Item1, move.FirstPos.Item2];
@@ -101,6 +113,14 @@ namespace Client
                         DrawMoves(StoredMoves);
                     }
                 }
+            }
+            if(isCheckmate)
+            {
+                MessageBox.Show("Checkmate!");
+            }
+            if(isStalemate)
+            {
+                MessageBox.Show("Stalemate!");
             }
         }
 

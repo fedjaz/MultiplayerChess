@@ -51,6 +51,22 @@ namespace ChessController
             #endregion
         }
 
+        public bool IsAnyMoveAvailable(Pieces.ChessPiece.Colors color)
+        {
+            for(int i = 0; i < 8; i++)
+            {
+                for(int j = 0; j < 8; j++)
+                {
+                    if(board[i, j] != null && board[i, j].Color == color &&
+                       board[i, j].GetAvailableMoves(this, (i, j)).Count != 0)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         public Pieces.ChessPiece this[int i, int j]
         {
             get => board[i, j];

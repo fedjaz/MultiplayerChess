@@ -13,6 +13,7 @@ namespace Client
     {
         public delegate void ClickArgs((int, int) piecePos);
         public event ClickArgs Clicked;
+        bool isCheck = false;
 
         public ChessController.Pieces.ChessPiece ChessPiece { get; set; }
         public ChessGame ChessGame { get; set; }
@@ -123,9 +124,27 @@ namespace Client
             BackgroundImage = Properties.Resources.Possible;
         }
 
-        public void Deactivate()
+        public void Deactivate(ChessClient.DeactivatingModes mode)
         {
-            BackgroundImage = null;
+            if(mode == ChessClient.DeactivatingModes.Click && !isCheck)
+            {
+                BackgroundImage = null;
+            }
+            else if(mode == ChessClient.DeactivatingModes.NextMove)
+            {
+                BackgroundImage = null;
+                isCheck = false;
+            }
+            else
+            {
+                BackgroundImage = Properties.Resources.Danger;
+            }
+        }
+
+        public void ActivateDanger()
+        {
+            BackgroundImage = Properties.Resources.Danger;
+            isCheck = true;
         }
     }
 }
