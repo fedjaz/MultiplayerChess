@@ -22,7 +22,7 @@ namespace ChessController.Pieces
             if(board[i, j].Color == Colors.White)
             {
                 //add default up move
-                if(i > 1 && board[i - 1, j] == null)
+                if(i > 0 && board[i - 1, j] == null)
                 {
                     moves.Add(new Move(Move.MoveTypes.Default, piecePos, (i - 1, j)));
                 }
@@ -72,7 +72,7 @@ namespace ChessController.Pieces
             else
             {
                 //add default down move
-                if(i < 6 && board[i + 1, j] == null)
+                if(i < 7 && board[i + 1, j] == null)
                 {
                     moves.Add(new Move(Move.MoveTypes.Default, piecePos, (i + 1, j)));
                 }
