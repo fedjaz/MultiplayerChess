@@ -20,7 +20,7 @@ namespace Client
         public event Deativating Deactivate;
         ChessGame ChessGame;
         ChessPiecePicturebox[,] PiecePictureboxes;
-        PromotionPicker PromotionPicker;
+        PromotionPicturebox PromotionPicturebox;
         List<Move> StoredMoves;
         bool isCheckmate = false;
         bool isStalemate = false;
@@ -97,20 +97,15 @@ namespace Client
 
         void GetPromotion(Move move, ChessController.Pieces.ChessPiece.Colors color)
         {
-            PromotionPicker = new PromotionPicker(this, move, color);
-            PromotionPicker.Size = new Size(150, 100);
-            PromotionPicker.Parent = Parent;
-            Parent.Controls.Add(PromotionPicker);
-            PromotionPicker.Location = new Point(200, 200);
-            PromotionPicker.BringToFront();
+            PromotionPicturebox = new PromotionPicturebox(Parent, this, move, color);
             isFreezed = true;
         }
 
         public void SetPromotion(Move move)
         {
             isFreezed = false;
-            Parent.Controls.Remove(PromotionPicker);
-            PromotionPicker.Dispose();
+            Parent.Controls.Remove(PromotionPicturebox);
+            PromotionPicturebox.Dispose();
             ApplyMove(move);
         }
 
@@ -209,6 +204,24 @@ namespace Client
             int cellSize = (sender as Control).Width / 8;
             int i = args.Y / cellSize, j = args.X / cellSize;
             PieceClicked((i, j));
+        }
+
+        public Bitmap GetImageOfBoard()
+        {
+            Bitmap bitmap = new Bitmap(Parent.Image);
+            Graphics graphics = Graphics.FromImage(bitmap);
+            int size = bitmap.Width / 8;
+            for(int i = 0; i < 8; i++)
+            {
+                for(int j = 0; j < 8; j++)
+                {
+                    if(PiecePictureboxes[i, j] != null)
+                    {
+                        graphics.DrawImage(PiecePictureboxes[i, j].Image, new Rectangle(j * size, i * size, size, size));
+                    }  
+                }
+            }
+            return bitmap;
         }
     }
 }
