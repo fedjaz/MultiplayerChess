@@ -233,16 +233,6 @@ namespace Client.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ShadowBackground {
-            get {
-                object obj = ResourceManager.GetObject("ShadowBackground", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap Wood {
             get {
                 object obj = ResourceManager.GetObject("Wood", resourceCulture);
