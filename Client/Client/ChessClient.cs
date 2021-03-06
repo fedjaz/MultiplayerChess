@@ -17,12 +17,14 @@ namespace Client
             NextMove
         }
         public delegate void Deativating(DeactivatingModes mode);
-        public event Deativating Deactivate; 
-        ChessGame ChessGame { get; set; }
+        public event Deativating Deactivate;
+        ChessGame ChessGame;
         ChessPiecePicturebox[,] PiecePictureboxes;
+        PromotionPicker PromotionPicker;
         List<Move> StoredMoves;
         bool isCheckmate = false;
         bool isStalemate = false;
+        bool isFreezed = false;
 
         PictureBox Parent;
         ChessPiecePicturebox Activated { get; set; }
@@ -58,7 +60,7 @@ namespace Client
         void PieceClicked((int, int) piecePos)
         {
             if((Activated != null && piecePos == Activated.PiecePos) ||
-                isCheckmate)
+                isCheckmate || isStalemate || isFreezed)
             {
                 return;
             }
@@ -70,44 +72,16 @@ namespace Client
                 Move move;
                 if(IsMovePossible(piecePos, out move))
                 {
-                    Deactivate?.Invoke(DeactivatingModes.NextMove);
-                    ChessGame.Move(move);
-                    ChessPiecePicturebox mainPiece = 
-                        PiecePictureboxes[move.FirstPos.Item1, move.FirstPos.Item2];
-                    mainPiece.MovePiece(piecePos);
-                    PiecePictureboxes[move.FirstPos.Item1, move.FirstPos.Item2] = null;
-                    ChessPiecePicturebox toDelete = PiecePictureboxes[i, j];
-                    if(toDelete != null)
+                    if(move.MoveType == Move.MoveTypes.Promotion)
                     {
-                        PiecePictureboxes[i, j] = null;
-                        Parent.Controls.Remove(toDelete);
-                        toDelete.Dispose();
+                        ChessController.Pieces.ChessPiece.Colors color =
+                            ChessGame.Board[move.FirstPos.Item1, move.FirstPos.Item2].Color;
+                        GetPromotion(move, color);
                     }
-                    if(move.MoveType == Move.MoveTypes.EnPassant)
+                    else
                     {
-                        int di = move.SecondaryFirstPos.Item1, dj = move.SecondaryFirstPos.Item2;
-                        toDelete = PiecePictureboxes[di, dj];
-                        PiecePictureboxes[di, dj] = null;
-                        Parent.Controls.Remove(toDelete);
-                        toDelete.Dispose();
+                        ApplyMove(move);
                     }
-                    else if(move.MoveType == Move.MoveTypes.Castling)
-                    {
-                        i = move.SecondaryFirstPos.Item1;
-                        j = move.SecondaryFirstPos.Item2;
-                        int di = move.SecondarySecondPos.Item1, dj = move.SecondarySecondPos.Item2;
-                        ChessPiecePicturebox castlingPiece = PiecePictureboxes[i, j];
-                        castlingPiece.MovePiece(move.SecondarySecondPos);
-                        PiecePictureboxes[i, j] = null;
-                        PiecePictureboxes[di, dj] = castlingPiece;
-                    }
-                    else if(move.MoveType == Move.MoveTypes.Promotion)
-                    {
-                        mainPiece.ChessPiece = move.PromotionPiece;
-                        mainPiece.Image = mainPiece.MapPicture();
-                    }
-                    PiecePictureboxes[move.SecondPos.Item1, move.SecondPos.Item2] = mainPiece;
-                    StoredMoves = new List<Move>();
                 }
                 else if(ChessGame.Board[i, j] != null)
                 {
@@ -119,6 +93,69 @@ namespace Client
                     }
                 }
             }
+        }
+
+        void GetPromotion(Move move, ChessController.Pieces.ChessPiece.Colors color)
+        {
+            PromotionPicker = new PromotionPicker(this, move, color);
+            PromotionPicker.Size = new Size(150, 100);
+            PromotionPicker.Parent = Parent;
+            Parent.Controls.Add(PromotionPicker);
+            PromotionPicker.Location = new Point(200, 200);
+            PromotionPicker.BringToFront();
+            isFreezed = true;
+        }
+
+        public void SetPromotion(Move move)
+        {
+            isFreezed = false;
+            Parent.Controls.Remove(PromotionPicker);
+            PromotionPicker.Dispose();
+            ApplyMove(move);
+        }
+
+        void ApplyMove(Move move)
+        {
+            int i = move.SecondPos.Item1, j = move.SecondPos.Item2;
+            Deactivate?.Invoke(DeactivatingModes.NextMove);
+            ChessGame.Move(move);
+            ChessPiecePicturebox mainPiece =
+                PiecePictureboxes[move.FirstPos.Item1, move.FirstPos.Item2];
+            mainPiece.MovePiece((i, j));
+            PiecePictureboxes[move.FirstPos.Item1, move.FirstPos.Item2] = null;
+            ChessPiecePicturebox toDelete = PiecePictureboxes[i, j];
+            if(toDelete != null)
+            {
+                PiecePictureboxes[i, j] = null;
+                Parent.Controls.Remove(toDelete);
+                toDelete.Dispose();
+            }
+            if(move.MoveType == Move.MoveTypes.EnPassant)
+            {
+                int di = move.SecondaryFirstPos.Item1, dj = move.SecondaryFirstPos.Item2;
+                toDelete = PiecePictureboxes[di, dj];
+                PiecePictureboxes[di, dj] = null;
+                Parent.Controls.Remove(toDelete);
+                toDelete.Dispose();
+            }
+            else if(move.MoveType == Move.MoveTypes.Castling)
+            {
+                i = move.SecondaryFirstPos.Item1;
+                j = move.SecondaryFirstPos.Item2;
+                int di = move.SecondarySecondPos.Item1, dj = move.SecondarySecondPos.Item2;
+                ChessPiecePicturebox castlingPiece = PiecePictureboxes[i, j];
+                castlingPiece.MovePiece(move.SecondarySecondPos);
+                PiecePictureboxes[i, j] = null;
+                PiecePictureboxes[di, dj] = castlingPiece;
+            }
+            else if(move.MoveType == Move.MoveTypes.Promotion)
+            {
+                mainPiece.ChessPiece = move.PromotionPiece;
+                mainPiece.Image = ChessPiecePicturebox.MapPicture(mainPiece.ChessPiece);
+            }
+            PiecePictureboxes[move.SecondPos.Item1, move.SecondPos.Item2] = mainPiece;
+            StoredMoves = new List<Move>();
+
             if(isCheckmate)
             {
                 MessageBox.Show("Checkmate!");

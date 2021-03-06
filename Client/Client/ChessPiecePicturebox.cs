@@ -32,7 +32,7 @@ namespace Client
             int size = parent.Width / 8;
             Size = new Size(size, size);
             //Image = new Bitmap(MapPicture(), new Size(size, size));
-            Image = MapPicture();
+            Image = MapPicture(ChessPiece);
 
             int locationX = pos.Item2 * size, locationY = pos.Item1 * size;
 
@@ -47,31 +47,31 @@ namespace Client
             PiecePos = newPos;
         }
 
-        public Bitmap MapPicture()
+        public static Bitmap MapPicture(ChessController.Pieces.ChessPiece piece)
         {
-            if(ChessPiece == null)
+            if(piece == null)
             {
                 return null;
             }
-            if(ChessPiece.Color == ChessController.Pieces.ChessPiece.Colors.White)
+            if(piece.Color == ChessController.Pieces.ChessPiece.Colors.White)
             {
-                if(ChessPiece is ChessController.Pieces.King)
+                if(piece is ChessController.Pieces.King)
                 {
                     return Properties.Resources.KingW;
                 }
-                else if(ChessPiece is ChessController.Pieces.Queen)
+                else if(piece is ChessController.Pieces.Queen)
                 {
                     return Properties.Resources.QueenW;
                 }
-                else if(ChessPiece is ChessController.Pieces.Rook)
+                else if(piece is ChessController.Pieces.Rook)
                 {
                     return Properties.Resources.RookW;
                 }
-                else if(ChessPiece is ChessController.Pieces.Bishop)
+                else if(piece is ChessController.Pieces.Bishop)
                 {
                     return Properties.Resources.BishopW;
                 }
-                else if(ChessPiece is ChessController.Pieces.Knight)
+                else if(piece is ChessController.Pieces.Knight)
                 {
                     return Properties.Resources.KnightW;
                 }
@@ -82,23 +82,23 @@ namespace Client
             }
             else
             {
-                if(ChessPiece is ChessController.Pieces.King)
+                if(piece is ChessController.Pieces.King)
                 {
                     return Properties.Resources.KingB;
                 }
-                else if(ChessPiece is ChessController.Pieces.Queen)
+                else if(piece is ChessController.Pieces.Queen)
                 {
                     return Properties.Resources.QueenB;
                 }
-                else if(ChessPiece is ChessController.Pieces.Rook)
+                else if(piece is ChessController.Pieces.Rook)
                 {
                     return Properties.Resources.RookB;
                 }
-                else if(ChessPiece is ChessController.Pieces.Bishop)
+                else if(piece is ChessController.Pieces.Bishop)
                 {
                     return Properties.Resources.BishopB;
                 }
-                else if(ChessPiece is ChessController.Pieces.Knight)
+                else if(piece is ChessController.Pieces.Knight)
                 {
                     return Properties.Resources.KnightB;
                 }
