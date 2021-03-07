@@ -208,7 +208,7 @@ namespace Client
 
         public Bitmap GetImageOfBoard()
         {
-            Parent.SendToBack();
+            //Parent.SendToBack();
             Bitmap bitmap = new Bitmap(Parent.Width, Parent.Height);
             Parent.DrawToBitmap(bitmap, new Rectangle(Point.Empty, Parent.Size));
             return bitmap;  
