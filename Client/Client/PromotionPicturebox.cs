@@ -25,12 +25,13 @@ namespace Client
         PictureBox Queen;
         public PromotionPicturebox(Control parent, ChessClient chessClient, Move move, ChessController.Pieces.ChessPiece.Colors color)
         {
+            Bitmap board = chessClient.GetImageOfBoard();
             Location = new Point(0, 0);
             Size = parent.Size;
             Parent = parent;
             Parent.Controls.Add(this);
 
-            Bitmap board = chessClient.GetImageOfBoard();
+            
             Graphics g = Graphics.FromImage(board);
             Brush b = new SolidBrush(Color.FromArgb(128, 0, 0, 0));
             g.FillRectangle(b, new Rectangle(0, 0, board.Width, board.Height));

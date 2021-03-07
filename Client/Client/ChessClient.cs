@@ -208,7 +208,11 @@ namespace Client
 
         public Bitmap GetImageOfBoard()
         {
-            Bitmap bitmap = new Bitmap(Parent.Image);
+            Parent.SendToBack();
+            Bitmap bitmap = new Bitmap(Parent.Width, Parent.Height);
+            Parent.DrawToBitmap(bitmap, new Rectangle(Point.Empty, Parent.Size));
+            bitmap.Save("ggg.png");
+            return bitmap;
             Graphics graphics = Graphics.FromImage(bitmap);
             int size = bitmap.Width / 8;
             for(int i = 0; i < 8; i++)

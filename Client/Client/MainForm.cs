@@ -25,7 +25,7 @@ namespace Client
             int boardSize = (screen.Height / 2) / 8 * 8;
             pictureBox1.Width = boardSize;
             pictureBox1.Height = boardSize;
-            Height = boardSize + 41;
+            Height = boardSize + 43;
             Width = (int)(1.75 * boardSize);
             pictureBox2.Location = new Point(boardSize, 0);
             
