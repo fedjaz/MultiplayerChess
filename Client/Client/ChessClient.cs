@@ -211,21 +211,7 @@ namespace Client
             Parent.SendToBack();
             Bitmap bitmap = new Bitmap(Parent.Width, Parent.Height);
             Parent.DrawToBitmap(bitmap, new Rectangle(Point.Empty, Parent.Size));
-            bitmap.Save("ggg.png");
-            return bitmap;
-            Graphics graphics = Graphics.FromImage(bitmap);
-            int size = bitmap.Width / 8;
-            for(int i = 0; i < 8; i++)
-            {
-                for(int j = 0; j < 8; j++)
-                {
-                    if(PiecePictureboxes[i, j] != null)
-                    {
-                        graphics.DrawImage(PiecePictureboxes[i, j].Image, new Rectangle(j * size, i * size, size, size));
-                    }  
-                }
-            }
-            return bitmap;
+            return bitmap;  
         }
     }
 }
