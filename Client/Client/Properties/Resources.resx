@@ -169,9 +169,6 @@
   <data name="Selected" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\selectedPng.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ShadowBackground" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ShadowBackground.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Wood" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Wood.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
