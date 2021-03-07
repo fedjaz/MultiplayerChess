@@ -20,7 +20,6 @@ namespace ChessController.Pieces
             Color = color;
         }
 
-        public abstract bool IsMoveAvailable(ChessGame chessGame, Move move);
         public List<Move> GetAvailableMoves(Board board, (int, int) piecePos)
         {
             List<Move> moves = GetAllMoves(board, piecePos);

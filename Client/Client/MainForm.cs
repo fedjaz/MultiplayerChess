@@ -12,7 +12,7 @@ namespace Client
 {
     public partial class MainForm : Form
     {
-        ChessClient chessClient;
+        Controls.GameControl GameControl;
         public MainForm()
         {
             InitializeComponent();
@@ -23,16 +23,13 @@ namespace Client
             Rectangle screen = Screen.PrimaryScreen.Bounds;
 
             int boardSize = (screen.Height / 2) / 8 * 8;
-            pictureBox1.Width = boardSize;
-            pictureBox1.Height = boardSize;
             Height = boardSize + 43;
             Width = (int)(1.75 * boardSize);
-            pictureBox2.Location = new Point(boardSize, 0);
-            
-
-            chessClient = new ChessClient(pictureBox1);
-
-           
+            GameControl = new Controls.GameControl();
+            GameControl.Location = new Point(0, 0);
+            GameControl.Size = new Size(panel1.Width, boardSize);
+            panel1.Controls.Add(GameControl);
+            //Font.Size = 40;
         }
     }
 }

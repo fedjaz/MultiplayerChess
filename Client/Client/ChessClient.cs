@@ -111,6 +111,7 @@ namespace Client
 
         void ApplyMove(Move move)
         {
+            Console.WriteLine(ChessGame.IsMoveAvailable(move));
             int i = move.SecondPos.Item1, j = move.SecondPos.Item2;
             Deactivate?.Invoke(DeactivatingModes.NextMove);
             ChessGame.Move(move);
@@ -208,7 +209,6 @@ namespace Client
 
         public Bitmap GetImageOfBoard()
         {
-            //Parent.SendToBack();
             Bitmap bitmap = new Bitmap(Parent.Width, Parent.Height);
             Parent.DrawToBitmap(bitmap, new Rectangle(Point.Empty, Parent.Size));
             return bitmap;  

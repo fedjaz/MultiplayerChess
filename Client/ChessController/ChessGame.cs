@@ -36,6 +36,11 @@ namespace ChessController
             return piece.GetAvailableMoves(Board, piecePos);
         }
 
+        public bool IsMoveAvailable(Move move)
+        {
+            return GetMoves(move.FirstPos).Contains(move);
+        }
+
         public void Move(Move move)
         {
             int i = move.FirstPos.Item1, j = move.FirstPos.Item2;

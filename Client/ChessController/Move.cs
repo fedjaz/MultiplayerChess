@@ -53,5 +53,15 @@ namespace ChessController
 
             return $"{(char)('A' + j)}{8 - i}-{(char)('A' + dj)}{8 - di}";
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Move move &&
+                   MoveType == move.MoveType &&
+                   FirstPos.Equals(move.FirstPos) &&
+                   SecondPos.Equals(move.SecondPos) &&
+                   SecondaryFirstPos.Equals(move.SecondaryFirstPos) &&
+                   SecondarySecondPos.Equals(move.SecondarySecondPos);
+        }
     }
 }

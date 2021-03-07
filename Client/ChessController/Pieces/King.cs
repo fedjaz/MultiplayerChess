@@ -96,10 +96,6 @@ namespace ChessController.Pieces
 
             return moves;
         }
-        public override bool IsMoveAvailable(ChessGame chessGame, Move move)
-        {
-            throw new NotImplementedException();
-        }
 
         static void CheckAndAddKingMove(Board board, Move move, List<Move> moves)
         {

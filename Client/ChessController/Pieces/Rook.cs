@@ -11,11 +11,6 @@ namespace ChessController.Pieces
 
         }
 
-        public override bool IsMoveAvailable(ChessGame chessGame, Move move)
-        {
-            throw new NotImplementedException();
-        }
-
         public override List<Move> GetAllMoves(Board board, (int, int) piecePos)
         {
             return GetRookMoves(board, piecePos);
