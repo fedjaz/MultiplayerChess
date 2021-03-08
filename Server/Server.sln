@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{06B9658B-2D04-47E9-A5BE-F72C5B15D379}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server.csproj", "{06B9658B-2D04-47E9-A5BE-F72C5B15D379}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChessController", "..\Client\ChessController\ChessController.csproj", "{15B9052A-E267-4DD0-998E-52CD24005DFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{06B9658B-2D04-47E9-A5BE-F72C5B15D379}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06B9658B-2D04-47E9-A5BE-F72C5B15D379}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06B9658B-2D04-47E9-A5BE-F72C5B15D379}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15B9052A-E267-4DD0-998E-52CD24005DFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15B9052A-E267-4DD0-998E-52CD24005DFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15B9052A-E267-4DD0-998E-52CD24005DFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15B9052A-E267-4DD0-998E-52CD24005DFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

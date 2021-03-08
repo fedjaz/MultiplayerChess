@@ -1,4 +1,5 @@
 ﻿using System;
+using ServerConnector;
 using ChessController;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -16,8 +17,14 @@ namespace Client
             Click, 
             NextMove
         }
+
+        Connection connection;
+        RichTextBox chat;
+        public bool IsMultiplayer { get; set; } = false;
+        public bool IsHost { get; set; } = false;
         public delegate void Deativating(DeactivatingModes mode);
         public event Deativating Deactivate;
+        string gameID;
         ChessGame ChessGame;
         ChessPiecePicturebox[,] PiecePictureboxes;
         PromotionPicturebox PromotionPicturebox;
@@ -57,6 +64,46 @@ namespace Client
             }
         }
 
+        public ChessClient(PictureBox parent, Uri connectionURI, Controls.GameControl gameControl, RichTextBox chat) : this(parent)
+        {
+            IsMultiplayer = true;
+            isFreezed = true;
+            connection = new Connection(connectionURI);
+            connection.RecievedMove += RecieveMove;
+            connection.GameConnected += GameConnected;
+            gameControl.ChatMessage += ChatMessage;
+            this.chat = chat;
+        }
+
+        void ChatMessage(RichTextBox chat, string message)
+        {
+            string[] messageArgs = message.Split(' ');
+            if(messageArgs[0] == "/creategame")
+            {
+                connection.CreateGame();
+                IsHost = true;
+            }
+            else if(messageArgs[0] == "/connect")
+            {
+                string gameID = messageArgs[1];
+                connection.Connect(gameID);
+                IsHost = false;
+            }
+        }
+
+        void GameConnected(Connection sender, string gameID)
+        {
+            this.gameID = gameID;
+            isFreezed = !IsHost;
+            chat.Text += $"Server: Game id is {gameID}\n";
+        }
+
+        void RecieveMove(Connection sender, Move move)
+        {
+            ApplyMove(move);
+            isFreezed = false;
+        }
+
         void PieceClicked((int, int) piecePos)
         {
             if((Activated != null && piecePos == Activated.PiecePos) ||
@@ -81,6 +128,11 @@ namespace Client
                     else
                     {
                         ApplyMove(move);
+                        if(IsMultiplayer)
+                        {
+                            isFreezed = true;
+                            connection.Move(gameID, move);
+                        }
                     }
                 }
                 else if(ChessGame.Board[i, j] != null)
@@ -107,11 +159,15 @@ namespace Client
             Parent.Controls.Remove(PromotionPicturebox);
             PromotionPicturebox.Dispose();
             ApplyMove(move);
+            if(IsMultiplayer)
+            {
+                isFreezed = true;
+                connection.Move(gameID, move);
+            }
         }
 
         void ApplyMove(Move move)
         {
-            Console.WriteLine(ChessGame.IsMoveAvailable(move));
             int i = move.SecondPos.Item1, j = move.SecondPos.Item2;
             Deactivate?.Invoke(DeactivatingModes.NextMove);
             ChessGame.Move(move);

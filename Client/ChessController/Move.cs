@@ -21,6 +21,11 @@ namespace ChessController
         public (int, int) SecondarySecondPos { get; set; }
         public Pieces.ChessPiece PromotionPiece { get; set; }
 
+        public Move()
+        {
+
+        }
+
         public Move(MoveTypes moveType, (int, int) firstPos, (int, int) secondPos)
         {
             MoveType = moveType;

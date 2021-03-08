@@ -13,6 +13,7 @@ namespace Client
     public partial class MainForm : Form
     {
         Controls.GameControl GameControl;
+        Controls.MainMenu MainMenu;
         public MainForm()
         {
             InitializeComponent();
@@ -29,6 +30,13 @@ namespace Client
             GameControl.Location = new Point(0, 0);
             GameControl.Size = new Size(panel1.Width, boardSize);
             panel1.Controls.Add(GameControl);
+            //GameControl.Visible = false;
+
+            MainMenu = new Controls.MainMenu();
+            MainMenu.Location = new Point(0, 0);
+            MainMenu.Size = new Size(panel1.Width, boardSize);
+            panel1.Controls.Add(MainMenu);
+            //MainMenu.Visible = true;
             //Font.Size = 40;
         }
     }

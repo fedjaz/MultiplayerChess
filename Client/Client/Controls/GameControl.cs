@@ -12,6 +12,8 @@ namespace Client.Controls
 {
     public partial class GameControl : UserControl
     {
+        public delegate void ChatMessageArgs(RichTextBox chat, string message);
+        public event ChatMessageArgs ChatMessage;
         ChessClient ChessClient;
         public GameControl()
         {
@@ -27,7 +29,14 @@ namespace Client.Controls
 
         private void GameControl_Load(object sender, EventArgs e)
         {
-            ChessClient = new ChessClient(ChessBoard);
+            ChessClient = new ChessClient(ChessBoard, new Uri("https://localhost:44326/chess"), this, richTextBox1);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            richTextBox1.Text += $"Me: {textBox1.Text}\n";
+            ChatMessage?.Invoke(richTextBox1, textBox1.Text);
+            textBox1.Text = "";
         }
     }
 }
