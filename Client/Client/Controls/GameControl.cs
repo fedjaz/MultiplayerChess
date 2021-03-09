@@ -29,7 +29,7 @@ namespace Client.Controls
 
         private void GameControl_Load(object sender, EventArgs e)
         {
-            ChessClient = new ChessClient(ChessBoard, new Uri("https://localhost:44326/chess"), this, richTextBox1);
+            ChessClient = new ChessClient(ChessBoard, new Uri("http://fedjaz-001-site1.gtempurl.com/chess"), this, richTextBox1);
         }
 
         private void button2_Click(object sender, EventArgs e)

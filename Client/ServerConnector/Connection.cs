@@ -11,17 +11,30 @@ namespace ServerConnector
     public class Connection
     {
         HubConnection hubConnection;
-        public delegate void RecieveMoveArgs(Connection sender, Move move);
+        public delegate void ReceiveMoveArgs(Connection sender, Move move);
         public delegate void ConnectionArgs(Connection sender, string gameID);
-        public event RecieveMoveArgs RecievedMove;
+        public delegate void MessageArgs(Connection sender, string message);
+        public event ReceiveMoveArgs ReceivedMove;
+        public event MessageArgs ReceivedMessage;
         public event ConnectionArgs GameConnected;
 
         public Connection(Uri connectionURI)
         {
             hubConnection = new HubConnectionBuilder().WithUrl(connectionURI).Build();
             hubConnection.On<string>("Connected", (gameID) => Connected(gameID));
-            hubConnection.On<string>("RecieveMove", (move) => RecieveMove(move));
+            hubConnection.On<string>("ReceiveMove", (move) => ReceiveMove(move));
+            hubConnection.On<string>("ReceiveMessage", (message) => ReceiveMessage(message));
             hubConnection.StartAsync();
+        }
+
+        void ReceiveMessage(string message)
+        {
+            ReceivedMessage?.Invoke(this, message);
+        }
+
+        public void SendMessage(string gameID, string message)
+        {
+            hubConnection.SendAsync("SendMessage", gameID, message);
         }
 
         public void Connect(string gameID)
@@ -33,7 +46,7 @@ namespace ServerConnector
             hubConnection.SendAsync("CreateGame");
         }
 
-        public void Connected(string gameID)
+        void Connected(string gameID)
         {
             GameConnected?.Invoke(this, gameID);
         }
@@ -47,13 +60,13 @@ namespace ServerConnector
             hubConnection.SendAsync("Move", gameID, moveJson);
         }
 
-        public void RecieveMove(string moveJson)
+        void ReceiveMove(string moveJson)
         {
             Move move = JsonConvert.DeserializeObject<Move>(moveJson, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto
             });
-            RecievedMove?.Invoke(this, move);
+            ReceivedMove?.Invoke(this, move);
         }
     }
 }

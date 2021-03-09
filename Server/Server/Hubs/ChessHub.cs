@@ -23,6 +23,12 @@ namespace Server.Hubs
             await Clients.Caller.SendAsync("Connected", gameID);
         }
 
+        public async Task SendMessage(string gameID, string message)
+        {
+            string connectionID = ChessService.FindOpponent(gameID, Context.ConnectionId);
+            await Clients.Client(connectionID).SendAsync("ReceiveMessage", $"Rival: {message}\n");
+        }
+
         public async Task Connect(string gameID)
         {
             ChessService.AddGuest(gameID, Context.ConnectionId);
@@ -42,7 +48,7 @@ namespace Server.Hubs
                 {
                     TypeNameHandling = TypeNameHandling.Auto
                 });
-                await Clients.Clients(recieverID).SendAsync("RecieveMove", moveJson);
+                await Clients.Clients(recieverID).SendAsync("ReceiveMove", moveJson);
             }
         }
 

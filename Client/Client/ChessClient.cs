@@ -69,8 +69,9 @@ namespace Client
             IsMultiplayer = true;
             isFreezed = true;
             connection = new Connection(connectionURI);
-            connection.RecievedMove += RecieveMove;
+            connection.ReceivedMove += ReceiveMove;
             connection.GameConnected += GameConnected;
+            connection.ReceivedMessage += ReceiveMessage;
             gameControl.ChatMessage += ChatMessage;
             this.chat = chat;
         }
@@ -89,6 +90,15 @@ namespace Client
                 connection.Connect(gameID);
                 IsHost = false;
             }
+            else
+            {
+                connection.SendMessage(gameID, message);
+            }
+        }
+
+        void ReceiveMessage(Connection sender, string message)
+        {
+            chat.Text += message;
         }
 
         void GameConnected(Connection sender, string gameID)
@@ -98,7 +108,7 @@ namespace Client
             chat.Text += $"Server: Game id is {gameID}\n";
         }
 
-        void RecieveMove(Connection sender, Move move)
+        void ReceiveMove(Connection sender, Move move)
         {
             ApplyMove(move);
             isFreezed = false;

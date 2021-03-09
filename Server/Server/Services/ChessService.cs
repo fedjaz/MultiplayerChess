@@ -21,6 +21,12 @@ namespace Server.Services
             return game.GameID;
         }
 
+        public string FindOpponent(string gameID, string senderID)
+        {
+            string hostID = games[gameID].HostID;
+            string guestID = games[gameID].GuestID;
+            return hostID == senderID ? guestID : hostID;
+        }
         public void AddGuest(string gameID, string guestID)
         {
             games[gameID].GuestID = guestID;
